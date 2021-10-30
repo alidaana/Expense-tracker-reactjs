@@ -7,21 +7,11 @@ const ExpenseForm = (props) => {
   const [enteredDate, setEnteredDate] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
 
-  // other way of setting multiple states
-  //   const [userInput, setUserInput] = useState({
-  //     enteredTitle: "",
-  //     enteredDate: "",
-  //     enteredAmount: "",
-  //   });
+  const [addClicked, setAddClicked] = useState(false);
 
   // functions to update states on change for each input
   const TitleChange = (event) => {
     setEnteredTitle(event.target.value);
-
-    // iff using the second way and depending on the previouse state like a counter
-    // setUserInput((prevState) => {
-    //   return { ...prevState, enteredTitle: event.target.value };
-    // });
   };
 
   const DateChange = (event) => {
@@ -46,9 +36,26 @@ const ExpenseForm = (props) => {
     setEnteredDate("");
     setEnteredAmount("");
 
+    setAddClicked(false);
+
     // log the object created from all the inputs
     props.onSaveExpenseDate(ExpenseData);
   };
+
+  const AddHandler = () => {
+    setAddClicked(true);
+  };
+  const CancelHandler = () => {
+    setAddClicked(false);
+  };
+
+  if (addClicked === false) {
+    return (
+      <div>
+        <button onClick={AddHandler}>Add New Expense</button>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={submitHandler}>
@@ -86,6 +93,9 @@ const ExpenseForm = (props) => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="button" onClick={CancelHandler}>
+          Cancel
+        </button>
         <button type="submit">Add Expense</button>
       </div>
     </form>
