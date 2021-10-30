@@ -14,19 +14,26 @@ function NewExpenses(props) {
   const filterExpenses = props.expenses.filter((expense) => {
     return expense.date.getFullYear().toString() === filter;
   });
+
+  let expensesContent = (
+    <p style={{ color: "white" }}>NO EXPENSES FOR THIS YEAR</p>
+  );
+
+  if (filterExpenses.length > 0) {
+    expensesContent = filterExpenses.map((expense) => (
+      <ExpenseItem
+        key={expense.id}
+        title={expense.title}
+        amount={expense.amount}
+        date={expense.date}
+      />
+    ));
+  }
+
   return (
     <Card className="expenses">
       <ExpensesFilter selected={filter} onChooseFilter={filterHandler} />
-      {/* Dynamicaly rendering list based on size of array */}
-
-      {filterExpenses.map((expense) => (
-        <ExpenseItem
-          key={expense.id}
-          title={expense.title}
-          amount={expense.amount}
-          date={expense.date}
-        />
-      ))}
+      {expensesContent}
     </Card>
   );
 }
