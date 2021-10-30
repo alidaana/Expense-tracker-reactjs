@@ -9,17 +9,17 @@ function NewExpenses(props) {
 
   const filterHandler = (chosen) => {
     setFilter(chosen);
-    console.log("From NewExpenses");
-    console.log(chosen);
   };
 
-  console.log(props.expenses);
+  const filterExpenses = props.expenses.filter((expense) => {
+    return expense.date.getFullYear().toString() === filter;
+  });
   return (
     <Card className="expenses">
       <ExpensesFilter selected={filter} onChooseFilter={filterHandler} />
       {/* Dynamicaly rendering list based on size of array */}
 
-      {props.expenses.map((expense) => (
+      {filterExpenses.map((expense) => (
         <ExpenseItem
           key={expense.id}
           title={expense.title}
